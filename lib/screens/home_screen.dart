@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_polydiff/classes/auth.dart';
+import 'package:flutter_polydiff/classes/communication_socket.dart';
 import 'package:flutter_polydiff/screens/signin_screen.dart';
 import 'package:flutter_polydiff/widgets/common/reusable_widget.dart';
 import 'package:logger/logger.dart';
@@ -13,8 +14,15 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  Future signInWithEmailAndPassword() async {
+
+  @override void initState() {
+    super.initState();
+    CommunicationSocket.init();
+  }
+
+  Future signOut() async {
     try{
+      CommunicationSocket.disconnect();
       Auth().signOut().then((value) => {
         Navigator.push(context, MaterialPageRoute(builder: (context) => const SignInScreen()))
       });
@@ -47,7 +55,7 @@ class _HomeScreenState extends State<HomeScreen> {
             const SizedBox(height: 40,),
               SizedBox(
                 width: 300, // Set the width to your desired value
-                child: basicButton(context, "Sign Out", () {signInWithEmailAndPassword(); })
+                child: basicButton(context, "Sign Out", () {signOut(); })
             ),
             ],
           )
