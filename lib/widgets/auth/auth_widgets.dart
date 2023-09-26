@@ -18,13 +18,13 @@ Row authOptions(bool isLogin, Function onClick) {
    children: <Widget>[
     Text(
      isLogin? 'Don\'t have an account? : ' : 'Already have an account? :',
-     style: TextStyle(fontSize: 18),
+     style: const TextStyle(fontSize: 18),
     ),
     TextButton(
      onPressed: () {onClick();},
      child: Text(
       isLogin? 'Create an account' : 'Log in',
-      style: TextStyle(fontSize: 18),
+      style: const TextStyle(fontSize: 18),
      ),
     )
    ],
