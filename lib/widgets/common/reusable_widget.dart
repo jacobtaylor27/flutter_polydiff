@@ -21,3 +21,14 @@ TextField basicTextField(String text, IconData icon, bool isPasswordType, TextEd
     keyboardType: isPasswordType ? TextInputType.visiblePassword : TextInputType.emailAddress,
   );
 }
+
+ElevatedButton basicButton(BuildContext context, String text, Function onClick) {
+  return ElevatedButton(
+    onPressed: () {
+      onClick();
+    },
+    child: Text(
+      text,
+    ),
+  );
+}
