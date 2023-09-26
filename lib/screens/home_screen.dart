@@ -2,9 +2,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_polydiff/classes/auth.dart';
 import 'package:flutter_polydiff/classes/communication_socket.dart';
+import 'package:flutter_polydiff/screens/chat_screen.dart';
 import 'package:flutter_polydiff/screens/signin_screen.dart';
 import 'package:flutter_polydiff/widgets/common/reusable_widget.dart';
+import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'package:logger/logger.dart';
+import 'package:socket_io_client/socket_io_client.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -14,6 +17,10 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+
+  onClickChat(){
+    Navigator.push(context, MaterialPageRoute(builder: (context) => const ChatScreen()));
+  }
 
   @override void initState() {
     super.initState();
@@ -50,7 +57,7 @@ class _HomeScreenState extends State<HomeScreen> {
               const SizedBox(height: 40,),
               SizedBox(
                 width: 300, // Set the width to your desired value
-                child: basicButton(context, "Chat", () {})
+                child: basicButton(context, "Chat", () {onClickChat();})
             ),
             const SizedBox(height: 40,),
               SizedBox(
