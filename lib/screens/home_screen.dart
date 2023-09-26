@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_polydiff/classes/auth.dart';
 import 'package:flutter_polydiff/classes/communication_socket.dart';
+import 'package:flutter_polydiff/enum/socket_events.dart';
 import 'package:flutter_polydiff/screens/chat_screen.dart';
 import 'package:flutter_polydiff/screens/signin_screen.dart';
 import 'package:flutter_polydiff/widgets/common/reusable_widget.dart';
