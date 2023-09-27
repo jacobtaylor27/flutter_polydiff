@@ -23,7 +23,7 @@ class OwnMessageWidget extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 10),
                   child:
                     Text(
-                      "${message.sender}",
+                      message.sender,
                       style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 12,
