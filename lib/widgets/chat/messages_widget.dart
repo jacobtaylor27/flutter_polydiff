@@ -58,7 +58,6 @@ class OwnMessageWidget extends StatelessWidget {
   }
 }
 
-
 class OtherMessageWidget extends StatelessWidget {
   final String message;
   final String sender;
