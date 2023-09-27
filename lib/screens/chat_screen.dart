@@ -30,7 +30,6 @@ class _ChatScreenState extends State<ChatScreen> {
       messages;
     });
     messageTextController.clear();
-    scrollController.jumpTo(scrollController.position.maxScrollExtent + 100);
 
   }
 
@@ -48,13 +47,18 @@ class _ChatScreenState extends State<ChatScreen> {
               child: ListView.builder(
                 controller: scrollController,
                 itemCount: chatProviderModel.messages.length, 
-                itemBuilder: (context, index) {
-                  if(chatProviderModel.messages[index].isSelf){
-                    return OwnMessageWidget(message: chatProviderModel.messages[index].message, sender: chatProviderModel.messages[index].sender);
-                  } else {  
-                    return OtherMessageWidget(message: chatProviderModel.messages[index].message, sender: chatProviderModel.messages[index].sender);
-                  }
-                }
+                reverse: true, // Display items from bottom to top
+                  itemBuilder: (context, index) {
+                    final reversedIndex =
+                        chatProviderModel.messages.length - 1 - index;
+                    if (chatProviderModel.messages[reversedIndex].isSelf) {
+                      return OwnMessageWidget(
+                          message: chatProviderModel.messages[reversedIndex]);
+                    } else {
+                      return OtherMessageWidget(
+                          message: chatProviderModel.messages[reversedIndex]);
+                    }
+                  },
               ),
             ),
             Padding(
@@ -64,6 +68,7 @@ class _ChatScreenState extends State<ChatScreen> {
                   Expanded(
                     child: TextFormField(
                       controller: messageTextController,
+                      maxLength: 200,
                       decoration: const InputDecoration(
                         hintText: "Type your message here",
                         border: OutlineInputBorder(

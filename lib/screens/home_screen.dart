@@ -30,7 +30,13 @@ class _HomeScreenState extends State<HomeScreen> {
     CommunicationSocket.init();
      CommunicationSocket.on(SocketEvents.message, (data) {
       Logger().i(data);
-        Provider.of<ChatListProvider>(context, listen: false).addMessage(Message(message: (data["body"]).toString(), sender: data["sender"].toString()));
+      Logger().i(data["timeStamp"]);
+        Provider.of<ChatListProvider>(context, listen: false)
+        .addMessage(Message(
+          message: data["body"].toString(), 
+          sender: data["sender"].toString(), 
+          time: data["timeStamp"].toString(),
+          ));
     });
   }
 
