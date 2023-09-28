@@ -27,11 +27,9 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   @override void initState() {
-    // Logger().i(Provider.of<Use rProvider>(context, listen: false).user.username);
     super.initState();
     CommunicationSocket.init();
      CommunicationSocket.on(SocketEvents.message, (data) {
-        Logger().i(data);
         Provider.of<ChatListProvider>(context, listen: false)
         .addMessage(Message(
             message: data['body'].toString(), 
@@ -43,8 +41,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Future signOut() async {
     try{
+      CommunicationSocket.off(SocketEvents.message);
       CommunicationSocket.disconnect();
       UserRepository().signOutUser(Provider.of<UserProvider>(context, listen: false).user!.uid);
+      Provider.of<ChatListProvider>(context, listen: false).clearList();
       Auth().signOut().then((value) => {
         Navigator.push(context, MaterialPageRoute(builder: (context) => const SignInScreen()))
       });

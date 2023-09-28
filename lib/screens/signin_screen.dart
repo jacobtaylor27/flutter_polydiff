@@ -1,5 +1,6 @@
-import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:flutter_polydiff/classes/auth.dart';
 import 'package:flutter_polydiff/classes/user_repository.dart';
 import 'package:flutter_polydiff/models/user.dart';
@@ -52,6 +53,7 @@ class _SignInScreenState extends State<SignInScreen> {
       Navigator.push(context, MaterialPageRoute(builder: (context) => const HomeScreen()));
     }
     else {
+      // TO DO button pour se deconnecter
       setState(() {
         errorFirebase = 'User already logged in';
       });
@@ -101,6 +103,9 @@ class _SignInScreenState extends State<SignInScreen> {
                 width: 300,
                 child: TextFormField(
                   controller: emailTextController,
+                  inputFormatters: [
+                    LengthLimitingTextInputFormatter(60),
+                  ],
                   onChanged: (string) => {
                     setState(() {
                       _isEmailValid = emailTextController.text.contains('@');
@@ -133,6 +138,9 @@ class _SignInScreenState extends State<SignInScreen> {
                 width: 300, // Set the width to your desired value
                 child: TextFormField(
                   controller: passwordTextController,
+                  inputFormatters: [
+                    LengthLimitingTextInputFormatter(25),
+                  ],
                   onChanged: (string) => {
                     setState(() {
                       _isPasswordValid = passwordTextController.text.length >= 6;

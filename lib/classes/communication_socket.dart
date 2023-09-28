@@ -7,7 +7,6 @@ class CommunicationSocket{
 
   static void init() {
     try {
-      Logger().i(socket);
       if (socket == null) {
         socket = io('http://ec2-3-96-187-234.ca-central-1.compute.amazonaws.com:3000', OptionBuilder()
       .setTransports(['websocket']) // for Flutter or Dart VM

@@ -1,5 +1,6 @@
-import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:flutter_polydiff/classes/auth.dart';
 import 'package:flutter_polydiff/classes/user_repository.dart';
 import 'package:flutter_polydiff/models/user.dart';
@@ -25,6 +26,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   FocusNode usernameFocusNode = FocusNode();
   String errorFirebase = '';
   bool _isUsernameAvailable = true;
+  bool _isUsernameValid = true;
   bool _isEmailValid = true;
   bool _isPasswordValid = true;
   bool _isCredentialsValid = false;
@@ -62,12 +64,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   void isUsernameAvailable() async {
     final response = await UserRepository().isUsernameAvailable(usernameTextController.text);
-    Logger().e(response);
     if (response != null) {
       if(response){
         setState(() {
           _isUsernameAvailable = false;
-          _isCredentialsValid = _isEmailValid && _isPasswordValid && _isUsernameAvailable;
+          _isCredentialsValid = _isEmailValid && _isPasswordValid && _isUsernameAvailable && _isUsernameValid;
         });
       }
       else {
@@ -106,9 +107,18 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 width: 300,
                 child: TextFormField(
                   controller: usernameTextController,
+                  inputFormatters: [
+                    LengthLimitingTextInputFormatter(16),
+                  ],
+                  onChanged: (string) => {
+                    setState(() {
+                      _isUsernameValid = usernameTextController.text.length <= 15;
+                      _isCredentialsValid = _isEmailValid && _isPasswordValid && _isUsernameAvailable && _isUsernameValid;
+                    })
+                  },
                   focusNode: usernameFocusNode,
                   decoration: InputDecoration(
-                    errorText: _isUsernameAvailable ? null : "Username already exists",
+                    errorText: (_isUsernameValid ? (_isUsernameAvailable ? null : "Username already exists")  : "Username must be less than 15 characters long"),
                     hintText: "Enter your username",
                     prefixIcon: const Icon(Icons.person_outline, color:Colors.blue,),
                     filled: true,
@@ -128,11 +138,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 width: 300,
                 child: TextFormField(
                   controller: emailTextController,
+                   inputFormatters: [
+                    LengthLimitingTextInputFormatter(60),
+                  ],
                   onChanged: (string) => {
                     setState(() {
                       _isEmailValid = emailTextController.text.contains('@');
                       _isEmailEmpty = emailTextController.text.isEmpty;
-                      _isCredentialsValid = _isEmailValid && _isPasswordValid;
+                      _isCredentialsValid = _isEmailValid && _isPasswordValid && _isUsernameValid;
                     })
                   },
                   decoration: InputDecoration(
@@ -156,11 +169,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 width: 300, // Set the width to your desired value
                 child: TextFormField(
                   controller: passwordTextController,
+                   inputFormatters: [
+                    LengthLimitingTextInputFormatter(25),
+                  ],
                   onChanged: (string) => {
                     setState(() {
                       _isPasswordValid = passwordTextController.text.length >= 6;
                       _isPasswordEmpty = passwordTextController.text.isEmpty;
-                      _isCredentialsValid = _isEmailValid && _isPasswordValid;
+                      _isCredentialsValid = _isEmailValid && _isPasswordValid && _isUsernameValid;
                     })
                   },
                   obscureText: true,

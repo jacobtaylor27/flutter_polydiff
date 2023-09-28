@@ -2,12 +2,10 @@ import 'dart:convert';
 
 import 'package:flutter_polydiff/classes/user_service.dart';
 import 'package:flutter_polydiff/models/user.dart';
-import 'package:logger/logger.dart';
 
 class UserRepository {
   dynamic getUserById(String uid) async {
     final response = await UserService().getUserById(uid);
-    Logger().e(json.decode(response.body));
 
     if (response.statusCode == 200) {
       return json.decode(response.body);

@@ -1,8 +1,6 @@
 import 'dart:convert';
-
 import 'package:http/http.dart' as http;
 import 'package:flutter_polydiff/constants/http_routes.dart';
-import 'package:logger/logger.dart';
 
 class HttpClient {
   // var client = http.Client();
@@ -13,13 +11,11 @@ class HttpClient {
   }
 
   Future<http.Response> post(String api, Map<String, dynamic> data) async {
-    Logger().e('$API_ENDPOINT$api');
     var url = Uri.parse('$API_ENDPOINT$api');
     return await http.post(url, body: json.encode(data), headers: {'Content-Type': 'application/json'});
   }
   
   Future<http.Response> put(String api, Map<String, dynamic> data) async {
-    Logger().e('$API_ENDPOINT$api');
     var url = Uri.parse('$API_ENDPOINT$api');
     return await http.put(url, body: json.encode(data), headers: {'Content-Type': 'application/json'});
   }
