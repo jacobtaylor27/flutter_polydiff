@@ -3,8 +3,8 @@ import 'package:flutter_polydiff/interfaces/message.dart';
 import 'package:flutter_polydiff/utils/datetime_utils.dart';
 
 class OwnMessageWidget extends StatelessWidget {
-  final Message message;
   const OwnMessageWidget({Key? key, required this.message}) : super(key: key);
+  final Message message;
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +23,7 @@ class OwnMessageWidget extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 10),
                   child:
                     Text(
-                      message.sender,
+                      '${message.sender} ${DateTimeUtils().getFormattedDate(message.time!)}',
                       style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 12,
@@ -60,8 +60,8 @@ class OwnMessageWidget extends StatelessWidget {
 }
 
 class OtherMessageWidget extends StatelessWidget {
-  final Message message;
   const OtherMessageWidget({Key? key, required this.message}) : super(key: key);
+  final Message message;
   @override
   Widget build(BuildContext context) {
     return Align(

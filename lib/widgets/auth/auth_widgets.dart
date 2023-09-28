@@ -1,8 +1,16 @@
 import 'package:flutter/material.dart';
 
-ElevatedButton signInSignUpButton(BuildContext context, bool isLogin, Function onClick) {
+ElevatedButton signInSignUpButton(BuildContext context, bool isLogin, Function onClick, {bool disabled = false}) {
   return ElevatedButton(
-   onPressed: () {
+    style: ButtonStyle(
+      backgroundColor: MaterialStateProperty.resolveWith<Color>((states) {
+        if (states.contains(MaterialState.disabled)) {
+          return Colors.grey; // Change the color for disabled state
+        }
+        return Colors.blue; // Change the color for enabled state
+      }),
+    ),
+   onPressed: disabled? null : () {
     onClick();
    },
    child: Text(

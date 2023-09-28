@@ -3,6 +3,7 @@ import 'package:flutter_polydiff/classes/communication_socket.dart';
 import 'package:flutter_polydiff/enum/socket_events.dart';
 import 'package:flutter_polydiff/interfaces/message.dart';
 import 'package:flutter_polydiff/providers/chat_provider.dart';
+import 'package:flutter_polydiff/providers/user_provider.dart';
 import 'package:flutter_polydiff/widgets/chat/messages_widget.dart';
 import 'package:provider/provider.dart';
 
@@ -24,13 +25,8 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   sendMessage(String msg){
-    CommunicationSocket.send(SocketEvents.message, {"body": msg, "sender": "lau"}, );
-    Provider.of<ChatListProvider>(context, listen: false).addMessage(Message(message: msg, sender: "Laurie", isSelf: true));
-    setState(() {
-      messages;
-    });
+    CommunicationSocket.send(SocketEvents.message, {"body": msg, "sender": Provider.of<UserProvider>(context, listen: false).user!.username}, );
     messageTextController.clear();
-
   }
 
   @override
@@ -51,7 +47,7 @@ class _ChatScreenState extends State<ChatScreen> {
                   itemBuilder: (context, index) {
                     final reversedIndex =
                         chatProviderModel.messages.length - 1 - index;
-                    if (chatProviderModel.messages[reversedIndex].isSelf) {
+                    if (chatProviderModel.messages[reversedIndex].sender == Provider.of<UserProvider>(context, listen: false).user!.username) {
                       return OwnMessageWidget(
                           message: chatProviderModel.messages[reversedIndex]);
                     } else {

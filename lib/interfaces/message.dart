@@ -1,7 +1,6 @@
 class Message {
-  Message({required this.message, required this.sender, this.time, this.isSelf = false,});
+  Message({required this.message, required this.sender, this.time,});
   String message;
   String sender;
-  bool isSelf = false;
   String? time;
 }
